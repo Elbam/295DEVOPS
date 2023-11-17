@@ -119,3 +119,29 @@ sleep 2
 #sudo mv /var/www/html/index.html  /var/www/html/index.html.bkp
 
 sudo systemctl reload apache2
+
+# Notificacion a DISCORD
+
+discord_str="https://discord.com/api/webhooks/1169002249939329156/7MOorDwzym-yBUs3gp0k5q7HyA42M5eYjfjpZgEwmAx1vVVcLgnlSh4TmtqZqCtbupov"
+cd --
+cd desafio01
+fullpayload=(
+      "Challenge 01 Web Application deploy using Bash Scripting"
+      "CodeBase Information:Sitio WEB En linea"
+      "Github Repo: https://github.com/roxsross/bootcamp-devops-2023"
+      "Author: Author $(git log -1 --pretty=format:'%an')"
+      "Commit ID: $(git rev-parse --short HEAD)"
+      "Commit Message: $(git log -1 --pretty=format:'%an')"
+      "WebApp Status: Online"
+      "Automation Script Information:"
+      "Maintainer: Elba Mujica"
+      "Github Repo: https://github.com/Elbam/295DEVOPS" 
+      "Script details: Please refer to the README.md"
+
+    )
+
+    for payload in "${fullpayload[@]}"; do
+      curl -X POST -H "Content-Type: application/json" -d '{
+        "content": "'"$payload"'"
+      }' "$discord_str"
+    done
